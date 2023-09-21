@@ -43,9 +43,9 @@ export class UpdateBlockBalances extends BlocksBase {
       let { nod3, log, collections, initConfig } = this
       let summary = await getBlockSummaryFromDb(blockHash, collections)
       if (!summary) throw new Error(`Missing block summary: ${blockHash}`)
-      const { block, internalTransactions } = summary.data
+      const { block, internalTransactions, transactions } = summary.data
       const { number } = block
-      const addresses = filterValueAddresses(internalTransactions)
+      const addresses = filterValueAddresses({ internalTransactions, transactions })
       let blockBalances = new BlockBalances({ block, addresses }, { nod3, log, collections, initConfig })
       let result = await blockBalances.save()
       blockBalances = undefined

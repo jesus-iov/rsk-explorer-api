@@ -60,7 +60,7 @@ export function getInternalTxId ({ blockNumber, transactionPosition: transaction
   return generateId({ blockNumber, transactionIndex, hash, index })
 }
 
-export function filterValueAddresses (internalTransactions) {
+export function filterValueAddresses ({ internalTransactions, transactions }) {
   const addresses = new Set()
   internalTransactions.forEach(({ action, error }) => {
     let { value, from, to } = action
@@ -70,6 +70,12 @@ export function filterValueAddresses (internalTransactions) {
       // review suicide and refund address
     }
   })
+
+  transactions.forEach(({ from, to }) => {
+    if (from) addresses.add(from)
+    if (to) addresses.add(to)
+  })
+
   return [...addresses]
 }
 
