@@ -2,7 +2,7 @@ import { DataCollectorItem } from '../lib/DataCollector'
 import { isBlockHash } from '../../lib/utils'
 export class Summary extends DataCollectorItem {
   constructor ({ BlocksSummary }, key) {
-    let cursorField = '_id'
+    let cursorField = 'timestamp'
     let sortDir = -1
     let sortable = { timestamp: -1 }
     super(BlocksSummary, key, { sortDir, cursorField, sortable })

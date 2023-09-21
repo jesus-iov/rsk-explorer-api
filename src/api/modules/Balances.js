@@ -4,8 +4,8 @@ import { isBlockHash } from '../../lib/utils'
 export class Balances extends DataCollectorItem {
   constructor ({ Balances }, name) {
     let sortable = { timestamp: -1, blockNumber: -1 }
-    super(Balances, name, { sortDir: -1, sortable })
-    this.fields = {}
+    const cursorField = 'blockNumber'
+    super(Balances, name, { sortDir: -1, sortable, cursorField })
     this.publicActions = {
       /**
        * @swagger

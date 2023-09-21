@@ -4,7 +4,9 @@ import { BigNumber } from 'bignumber.js'
 
 export class Token extends DataCollectorItem {
   constructor ({ TokensAddrs }, key) {
-    super(TokensAddrs, key)
+    const cursorField = 'address'
+    const sortable = { address: -1 }
+    super(TokensAddrs, key, { cursorField, sortable })
     this.publicActions = {
       /**
        * @swagger
