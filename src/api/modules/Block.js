@@ -123,14 +123,18 @@ export class Block extends DataCollectorItem {
         let message
 
         try {
-          await getBlock(number, { db: this.parent.db, initConfig: this.parent.initConfig })
-          message = `Block ${number} saved succesfully.`
-        } catch (e) {
-          if (e.message.includes('already in db')) {
+          const { data } = await this.publicActions.getBlock({ number })
+          const exists = data && data.number === number
+          if (exists) {
             message = `Block ${number} already in db. Skipped`
           } else {
-            throw new Error(e)
+            // Note: Breaks if block number does not exist yet in the blockchain yet
+            await getBlock(number, { db: this.parent.db, initConfig: this.parent.initConfig })
+            message = `Block ${number} saved succesfully.`
           }
+        } catch (e) {
+          console.log(e)
+          message = 'errored'
         }
 
         return { message }
