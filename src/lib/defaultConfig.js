@@ -52,7 +52,10 @@ export default {
     exposeDoc: false,
     // All modules are enabled as default
     modules: setAllModules(true),
-    delayedFields
+    delayedFields,
+    contractVerifier: {
+      url: 'ws://localhost:3008'
+    }
   },
   blocks: {
     blocksQueueSize: 10,
