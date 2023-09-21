@@ -14,7 +14,7 @@ import { evaluateError } from './lib/evaluateError'
 const port = config.api.port || '3003'
 const address = config.api.address || 'localhost'
 
-setup({ log, skipCheck: true }).then(({ db, initConfig }) => {
+setup({ log }).then(({ db, initConfig }) => {
   log.info('Database connected')
 
   // data collectors
