@@ -2,7 +2,7 @@ import { BcThing } from './BcThing'
 import BlockSummary from './BlockSummary'
 import { blockQuery, isBlockHash, isBlockObject } from '../../lib/utils'
 import { saveAddressToDb } from './Address'
-
+import { BcStats } from './BcStats'
 export class Block extends BcThing {
   constructor (hashOrNumber, { nod3, collections, log, initConfig }) {
     super({ nod3, collections, initConfig, log })
@@ -11,6 +11,7 @@ export class Block extends BcThing {
     this.log = log || console
     this.hashOrNumber = hashOrNumber
     this.summary = new BlockSummary(hashOrNumber, { nod3, initConfig, collections, log })
+    this.bcStats = new BcStats(null, { log, initConfig, collections: this.collections }) // to compare stats against postgres
     this.data = {
       block: null
     }
@@ -76,6 +77,7 @@ export class Block extends BcThing {
       // insert tokenAddresses
       result.tokenAddresses = await this.insertTokenAddresses(tokenAddresses)
 
+      await this.bcStats.update({ hash: block.hash, number: block.number })
       return { result, data }
     } catch (err) {
       // remove blockData if block was inserted

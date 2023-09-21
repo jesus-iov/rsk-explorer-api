@@ -7,6 +7,7 @@ import { serialize } from '../../lib/utils'
 export class BcStats extends BlocksBase {
   constructor (db, options) {
     super(db, options)
+    this.collections = options.collections
     this.collection = this.collections.Stats
     this.stats = { blockHash: undefined, blockNumber: undefined }
   }
