@@ -86,5 +86,6 @@ export default {
     Balances: 'balances',
     BalancesLog: 'balancesLog',
     BlocksTraces: 'blockTraces'
-  }
+  },
+  enableTxPoolFromApi: true
 }
