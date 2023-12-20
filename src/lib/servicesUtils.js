@@ -39,27 +39,16 @@ export async function insertBlock (number, blocksBase, { log, tipBlock = false }
   if (!remainingAttempts) log.error(`Block ${number} could not be saved after ${RETRIES} retries.`)
 }
 
-export const getDbBlock = (number) => blocksRepository.findOne({ number })
-
-export const sameHash = (h1, h2) => h1 === h2
-
-function deleteBlocks (blocks = []) {
-  return blocksRepository.deleteBlocksByNumbers(blocks)
-}
-
-async function insertBlocks (blocks = [], blocksBase, { initConfig, log }) {
+export async function insertBlocks (blocks = [], blocksBase, { initConfig, log }) {
   for (const number of blocks) {
     await insertBlock(number, blocksBase, { initConfig, log })
   }
-}
-export async function reorganizeBlocks (blocksBase, { blocksToDelete = [], blocks: missingBlocks = [], initConfig, log }) {
-  await deleteBlocks(blocksToDelete)
-  log.info(`Deleted ${blocksToDelete.length} blocks: ${JSON.stringify(blocksToDelete)}`)
-
-  log.info(`Adding ${missingBlocks.length} new chain blocks: ${JSON.stringify(missingBlocks)}`)
-  await insertBlocks(missingBlocks, blocksBase, { initConfig, log })
 }
 
 export async function delay (time) {
   return new Promise(resolve => setTimeout(resolve, time))
 }
+
+export const getDbBlock = (number) => blocksRepository.findOne({ number })
+
+export const sameHash = (h1, h2) => h1 === h2
